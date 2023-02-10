@@ -49,6 +49,41 @@ public class DepartmentSpecification {
                 where = where.and(maxDate);
             }else where = Specification.where(maxDate);
         }
+
+        //filter by minYear
+        if(filterForm != null && filterForm.getMinYear() != null){
+            //truyen field va value xuong cho customSpecification
+            DepartmentCustomSpecification minYear = new DepartmentCustomSpecification("minYear", filterForm.getMinYear());
+            if(where == null) where = Specification.where(minYear);
+            else where = where.and(minYear);
+        }
+
+        //filter by maxYear
+        if(filterForm != null && filterForm.getMaxYear() != null){
+            DepartmentCustomSpecification maxYear = new DepartmentCustomSpecification("maxYear",filterForm.getMaxYear());
+            if(where != null) where = where.and(maxYear);
+            else where = Specification.where(maxYear);
+        }
+        //filter by min members number
+        if(filterForm != null && filterForm.getMinMembers() != null){
+            DepartmentCustomSpecification minMembers= new DepartmentCustomSpecification("minMembers",filterForm.getMinMembers());
+            if(where != null) where = where.and(minMembers);
+            else where = Specification.where(minMembers);
+        }
+
+        //filter by max members number
+        if(filterForm != null && filterForm.getMaxMembers() != null){
+            DepartmentCustomSpecification maxMembers = new DepartmentCustomSpecification("maxMembers",filterForm.getMaxMembers());
+            if(where != null) where = where.and(maxMembers);
+            else where = Specification.where(maxMembers);
+        }
+
+        //filter by min accounts number
+        if(filterForm != null && filterForm.getMinAccounts() != null){
+            DepartmentCustomSpecification minAccounts = new DepartmentCustomSpecification("minAccounts",filterForm.getMinAccounts());
+            if(where != null) where = where.and(minAccounts);
+            else where = Specification.where(minAccounts);
+        }
         return where;
     }
 

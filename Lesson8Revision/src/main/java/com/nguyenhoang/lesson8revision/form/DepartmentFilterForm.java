@@ -23,4 +23,16 @@ public class DepartmentFilterForm {
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     //định dạng dữ liệu truyền vào
     private Date maxCreatedDate;
+
+    private Integer minYear;
+
+    private Integer maxYear;
+
+    private Integer minMembers;
+
+    private Integer maxMembers;
+
+    private Long minAccounts;
+
+    private Long maxAccounts;
 }

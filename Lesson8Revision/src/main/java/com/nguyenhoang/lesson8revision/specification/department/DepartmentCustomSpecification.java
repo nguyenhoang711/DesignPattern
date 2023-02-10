@@ -40,6 +40,38 @@ public class DepartmentCustomSpecification implements Specification<Department> 
         if(field.equalsIgnoreCase("createdDate")){
             return criteriaBuilder.equal(root.get("createdDate").as(java.sql.Date.class), value);
         }
+        //tao cau truy van voi minYear
+        if(field.equalsIgnoreCase("minYear")){
+            return criteriaBuilder.greaterThanOrEqualTo(
+                    criteriaBuilder.function("YEAR",Integer.class, root.get("createdDate")),
+                    (Integer) value
+            );
+        }
+        //toa cua truy van voi maxYEar
+        if(field.equalsIgnoreCase("maxYear")){
+            return criteriaBuilder.lessThanOrEqualTo(
+                    criteriaBuilder.function("YEAR",Integer.class, root.get("createdDate")),
+                    (Integer) value
+            );
+        }
+
+        //filter theo tong so luong accounts nho nhat
+        if(field.equalsIgnoreCase("minMembers")){
+            return criteriaBuilder.greaterThanOrEqualTo(root.get("totalMember"),(Integer) value);
+        }
+
+        //filter theo tong so accounts lon nhat
+        if(field.equalsIgnoreCase("maxMembers")){
+            return criteriaBuilder.lessThanOrEqualTo(root.get("totalMember"),(Integer) value);
+        }
+
+        //filter theo tong so luong accounts
+        if(field.equalsIgnoreCase("minAccounts")){
+            return criteriaBuilder.greaterThanOrEqualTo(
+                    criteriaBuilder.count(root.get("accounts")),
+                    (Long) value
+            );
+        }
         return null;
     }
 }
