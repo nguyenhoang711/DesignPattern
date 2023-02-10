@@ -30,6 +30,7 @@ public class DepartmentController {
 
     @GetMapping
     //search theo tên department hoặc lấy theo username
+    //localhost:8080/api/v1/departments?search=anh
     public Page<DepartmentDTO> getAllDepartment(Pageable pageable, @RequestParam(name = "search", required = false) String search){
         Page<Department> entityPages = service.getAllDepartmentByName(pageable,search);
         //convert from entities --> dtos
@@ -54,6 +55,7 @@ public class DepartmentController {
 
     //get department by date
     @GetMapping(value = "/date")
+    //localhost:8080/api/v1/departments/date?createdDate=10-03-2020
     public Page<DepartmentDTO> getDepartmentByDate(Pageable pageable, @RequestParam(name = "search",required = false)String date,DepartmentFilterForm filterForm){
         Page<Department> entityPages = service.getAllDepartmentByDate(pageable,date,filterForm);
 

@@ -5,8 +5,6 @@ import com.nguyenhoang.lesson8revision.form.DepartmentFilterForm;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
 
-import java.util.Date;
-
 public class DepartmentSpecification {
     @SuppressWarnings("deprecation")
     public static Specification<Department> buildWhere1Arg(String search){

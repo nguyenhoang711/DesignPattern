@@ -17,14 +17,21 @@ public class AccountCustomSpecification implements Specification<Account> {
     private String field;
     @NonNull
     private Object value;
+
+    @SuppressWarnings({"rawtypes","unchecked"})
     @Override
     public Predicate toPredicate(Root<Account> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
         if(field.equalsIgnoreCase("userName")){
-            return criteriaBuilder.like(root.get("userName"),"%" + value.toString() + "%");
+            return criteriaBuilder.like(root.get("userName"),"%" + value + "%");
         }
         //tạo câu truy vấn với nested attribute
         if(field.equalsIgnoreCase("departmentName")){
-            return criteriaBuilder.like(root.get("department").get("name"),"%" + value.toString() + "%");
+            return criteriaBuilder.like(root.get("department").get("name"),"%" + value + "%");
+        }
+
+        //filter theo department type
+        if(field.equalsIgnoreCase("departmentType")){
+            return criteriaBuilder.equal(root.get("department").get("type"),value);
         }
         return null;
     }

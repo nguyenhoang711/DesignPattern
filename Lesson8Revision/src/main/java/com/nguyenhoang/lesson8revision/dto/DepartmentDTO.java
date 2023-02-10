@@ -2,6 +2,7 @@ package com.nguyenhoang.lesson8revision.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.nguyenhoang.lesson8revision.entity.Type;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

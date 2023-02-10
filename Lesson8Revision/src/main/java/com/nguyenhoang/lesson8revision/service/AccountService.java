@@ -1,6 +1,7 @@
 package com.nguyenhoang.lesson8revision.service;
 
 import com.nguyenhoang.lesson8revision.entity.Account;
+import com.nguyenhoang.lesson8revision.form.AccountFilterForm;
 import com.nguyenhoang.lesson8revision.repository.IAccountRepository;
 import com.nguyenhoang.lesson8revision.specification.account.AccountSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +16,19 @@ public class AccountService implements IAccountService{
     private IAccountRepository repository;
 
     @Override
-    public Page<Account> getAllAccountsByName(Pageable pageable, String search) {
-        Specification<Account> where = AccountSpecification.buildWhere(search);
+    public Page<Account> getAllAccountsByName(Pageable pageable, String search, AccountFilterForm filterForm) {
+        Specification<Account> where = AccountSpecification.buildWhere(search,filterForm);
         return repository.findAll(where,pageable);
     }
 
     @Override
     public Account getAccountByID(int id) {
         return repository.findById(id).get();
+    }
+
+    @Override
+    public Page<Account> filterAccountsByDepType(Pageable pageable, String search, AccountFilterForm filterForm) {
+        Specification<Account> where = AccountSpecification.buildWhere(search,filterForm);
+        return repository.findAll(where,pageable);
     }
 }
