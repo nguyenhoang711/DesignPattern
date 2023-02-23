@@ -1,4 +1,4 @@
-package com.vti.utils;
+package com.nguyenhoang.javaadfinalexam.utils;
 
 public class Utils {
 	public static String formatSearch(String search) {

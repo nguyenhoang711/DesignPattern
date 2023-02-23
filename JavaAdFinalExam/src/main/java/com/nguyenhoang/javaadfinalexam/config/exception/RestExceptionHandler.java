@@ -1,4 +1,4 @@
-package com.vti.config.exception;
+package com.nguyenhoang.javaadfinalexam.config.exception;
 
 import java.util.HashMap;
 import java.util.Map;
