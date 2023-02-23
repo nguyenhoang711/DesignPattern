@@ -1,0 +1,241 @@
+<div class="alv-container">
+    <div class="alv-heading">
+        DANH SÁCH CHUYẾN BAY
+    </div>
+
+    <!-- Filter -->
+    <div class="filter-flight-wrapper">
+        <div class="filter-flight-item">
+            <select id="filter-min-start-time-select" style="width:250px;" class="operator">
+                <option value=""></option> <!-- Default value-->
+                <option value="10-03-2022 08:00:00">10-03-2022 08:00:00</option>
+                <option value="10-04-2022 08:00:00">10-04-2022 08:00:00</option>
+                <option value="10-05-2022 08:00:00">10-05-2022 08:00:00</option>
+                <option value="10-06-2022 08:00:00">10-06-2022 08:00:00</option>
+            </select>
+        </div>
+        <div class="filter-flight-item">
+            <select id="filter-max-start-time-select" style="width:250px;" class="operator">
+                <option value=""></option> <!-- Default value-->
+                <option value="10-07-2022 08:00:00">10-07-2022 08:00:00</option>
+                <option value="10-09-2022 08:00:00">10-09-2022 08:00:00</option>
+                <option value="10-10-2022 08:00:00">10-10-2022 08:00:00</option>
+                <option value="10-12-2022 08:00:00">10-12-2022 08:00:00</option>
+            </select>
+        </div>
+        <div class="filter-flight-item">
+            <a href="#" data-toggle="tooltip" title="Filter" onclick="filterFlight()">
+                <i class="fa-solid fa-filter"></i>
+            </a>
+        </div>
+    </div>
+        
+
+    <div class="alv-table">
+        <div class="table-wrapper">
+            <div class="function-bar">
+
+                <!-- Search -->
+                <div class="search-bar">
+                    <i class="fas fa-search search-icon"></i>
+                    <input class="form-control" type="text" id="search-flight-input" placeholder="Tìm kiếm theo tên cơ trưởng..." data-toggle="tooltip">
+                </div>
+
+                <div class="add-sync-del-btn">
+                    <a href="#" data-toggle="tooltip" title="Refresh" onclick="refreshFlightTable()">
+                        <i class="fas fa-sync"></i>
+                    </a>
+                    <a href="#" data-toggle="tooltip" title="Add" onclick="openAddFlightModal()">
+                        <i class="fa-solid fa-square-plus"></i>
+                    </a>
+                    <a href="#" data-toggle="tooltip" title="Delete" onclick="showDeleteMultipleFlightsModal()">
+                        <i class="fa-regular fa-trash-can"></i>
+                    </a>
+                </div>
+            </div>
+            <table class="table table-striped table-hover" id="flight-table">
+                <thead>
+                    <tr>
+                        <th style="width: 45px;">
+                            <span class="flight-checkbox">
+                                <input type="checkbox" id="checkbox-all" name="checkbox-all"
+                                    onclick="onChangeFlightCheckboxAll()">
+                                <label></label>
+                            </span>
+                        </th>
+                        <th style="width: auto;" id="th-coTruong">
+                                Cơ trưởng
+                        </th>
+                        <th style="width: 15%;" id="th-start-time">
+                            <a href="#" onclick="changeFlightSort('startTime')">
+                                Thời gian xuất phát
+                                <i id="start-time-sort" class="fa-solid fa-sort"></i>
+                            </a>
+                        </th>
+                        
+                        <th style="width: 15%;" id="th-end-time">
+                            <a href="#" onclick="changeFlightSort('endTime')">
+                                Thời gian hạ cánh
+                                <i id="end-time-sort" class="fa-solid fa-sort"></i>
+                            </a>
+                        </th>
+
+                        <th style="width: 20%;" id="th-from-city">
+                            Khởi hành
+                        </th>
+
+                        <th style="width: 20%;" id="th-to-city">
+                                Kết thúc
+                        </th>
+
+                        <th style="width: 120px;">
+                            Actions
+                            </a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+
+            </table>
+            <div class="page-nav">
+                <nav aria-label="Page flights navigation example">
+                    <ul class="pagination">
+                      <!-- <li class="page-item" id="above-tuyen"><a class="page-link" href="#" onclick="prevTuyenPage()">Previous</a></li>
+                      <li class="page-item"><a class="page-link" href="#">1</a></li>
+                      <li class="page-item"><a class="page-link" href="#">2</a></li>
+                      <li class="page-item"><a class="page-link" href="#">3</a></li>
+                      <li class="page-item"><a class="page-link" href="#" onclick="nextTuyenPage()">Next</a></li> -->
+                    </ul>
+                  </nav>
+            </div>
+
+            <div class="page-nav">
+                <div class="page-info" id="flight-page-info">
+                    <!-- 10 records 1 of 10 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Add and Update Flight modal HTML -->
+    <div class="modal fade" id="addAndUpdateFlightModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" id="addAndUpdateFlight-modal-title" style="text-align: center; font-size: 25px;">
+                        Tạo mới chuyến bay
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="flight-id" name="id" value="">
+                    
+                    <!-- thêm option trong drop down list cho typePlane -->
+                     <div class="input-item" id="input-item-typePlane">
+                        <label for="type" id="type-label"><b>Loại máy bay:</b></label>
+                        <select class="form-control" name="type" id="modal-type-plane-select">
+                            <option value="">- Pick a plane type -</option> <!-- Default value-->
+                            <option value="BOEING">Boeing</option>
+                            <option value="AIRBUS">Airbus</option>
+                            <option value="COMAC">Comac</option>
+                         </select>
+                        <div id="modal-input-errMess-typePlane" class="input-errMess"></div>
+                    </div>
+
+                    <div class="input-item">
+                        <div id="start-time-block">
+                            <label for="start-time" id="from-time-label"><b>Thời gian xuất phát</b></label>
+                            <input class="form-control" type="text" placeholder="dd-MM-yyyy HH:mm:ss" name="start-time" id="modal-start-time" value="">
+                            <div id="modal-input-errMess-start-time" class="input-errMess"></div>
+                        </div>
+                        <div id="end-time-block">
+                            <label for="end-time" id="end-time-label"><b>Thời gian hạ cánh</b></label>
+                            <input class="form-control" type="text" placeholder="dd-MM-yyyy HH:mm:ss" name="end-time" id="modal-end-time" value="">
+                            <div id="modal-input-errMess-end-time" class="input-errMess"></div>
+                        </div>
+                        <div id="modal-input-errMess-time" class="input-errMess"></div>
+                    </div>
+                    
+
+                    <div class="input-item" id="input-item-city">
+                        <label for="city" style="margin-left: 4px;"><b>Xuất phát - Hạ cánh:</b></label>
+                        <select class="form-control" name="city" id="modal-city-select">
+                            <option value="">- Lựa chọn tuyến bay -</option>
+                                <!-- <option value="1">alpha</option> 
+                                <option value="2">beta</option>
+                                <option value="3">theta</option>
+                                <option value="4">omega</option> -->
+                        </select>
+                        <div id="modal-input-errMess-city" class="input-errMess"></div>
+                    </div>
+                    
+                    <div class="input-item" id="input-item-pilotName">
+                        <label id="pilot-lable" for="pilot"><b>Phi Công:</b></label>
+                        <select class="form-control" name="pilot" id="modal-pilot-select">
+                            <option value="">- Pick a pilot -</option>
+                                <!-- <option value="1">alpha</option> 
+                                <option value="2">beta</option>
+                                <option value="3">theta</option>
+                                <option value="4">omega</option> -->
+                        </select>
+                        <div id="modal-input-errMess-pilot" class="input-errMess"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default save-btn" onclick="saveFlight()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Single Flight delete modal HTML -->
+    <div class="modal fade" id="deleteSingleFlightModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" style="text-align: center; font-size: 24px;">Delete Flight</i>
+                    </h4>
+                </div>
+                <input type="hidden" id="delete-single-flight-id" name="id" value="">
+                <div class="modal-body" id="delete-single-flight-confirm-mess">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="delete-single-flight-btn" type="button" class="btn btn-default delete-btn">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Flights delete modal HTML -->
+    <div class="modal fade" id="deleteMultipleFlightsModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" style="text-align: center; font-size: 24px;">Delete Flight</i>
+                    </h4>
+                </div>
+                <div class="modal-body" id="delete-flights-confirm-mess">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="delete-multiple-flights-btn" type="button" class="btn btn-default delete-btn">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>

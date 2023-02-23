@@ -1,0 +1,259 @@
+<div class="alv-container">
+    <div class="alv-heading">
+        DANH SÁCH QUẢN TRỊ
+    </div>
+
+    <!-- Filter -->
+    <div class="filter-admin-wrapper">
+        <div class="filter-admin-item">
+            <select id="filter-min-exp-year-select" style="width:180px;" class="operator">
+                <option value=""></option> <!-- Default value-->
+                <option value="1">1</option>
+                <option value="4">4</option>
+                <option value="7">7</option>
+                <option value="10">10</option>
+                <option value="13">13</option>
+                <option value="16">16</option>
+            </select>
+        </div>
+        <div class="filter-admin-item">
+            <select id="filter-max-exp-year-select" style="width:180px;" class="operator">
+                <option value=""></option> <!-- Default value-->
+                <option value="3">3</option>
+                <option value="6">6</option>
+                <option value="9">9</option>
+                <option value="12">12</option>
+                <option value="15">15</option>
+                <option value="18">18</option>
+                <option value="21">21</option>
+                <option value="25">25</option>
+            </select>
+        </div>
+        <div class="filter-admin-item">
+            <select id="filter-admin-gender-select" style="width:180px;" class="operator">
+                <option value=""></option> <!-- Default value-->
+                <option value="All genders">Tất cả</option>
+                <option value="Male">Nam</option>
+                <option value="Female">Nữ</option>
+                <option value="Undefined">Khác</option>
+            </select>
+        </div>
+        <div class="filter-admin-item">
+            <a href="#" data-toggle="tooltip" title="Filter" onclick="filterAdmin()">
+                <i class="fa-solid fa-filter"></i>
+            </a>
+        </div>
+    </div>
+        
+
+    <div class="alv-table">
+        <div class="table-wrapper">
+            <div class="function-bar">
+
+                <!-- Search -->
+                <div class="search-bar">
+                    <i class="fas fa-search search-icon"></i>
+                    <input class="form-control" type="text" id="search-admin-input" placeholder="Tìm kiếm theo tên quản trị viên..." data-toggle="tooltip">
+                </div>
+
+                <div class="add-sync-del-btn">
+                    <a href="#" data-toggle="tooltip" title="Refresh" onclick="refreshAdminTable()">
+                        <i class="fas fa-sync"></i>
+                    </a>
+                    <a href="#" data-toggle="tooltip" title="Add" onclick="openAddAdminModal()">
+                        <i class="fa-solid fa-square-plus"></i>
+                    </a>
+                    <a href="#" data-toggle="tooltip" title="Delete" onclick="showDeleteMultipleAdminsModal()">
+                        <i class="fa-regular fa-trash-can"></i>
+                    </a>
+                </div>
+            </div>
+            <table class="table table-striped table-hover" id="admin-table">
+                <thead>
+                    <tr>
+                        <th style="width: 45px;">
+                            <span class="admin-checkbox">
+                                <input type="checkbox" id="checkbox-all" name="checkbox-all"
+                                    onclick="onChangeAdminCheckboxAll()">
+                                <label></label>
+                            </span>
+                        </th>
+                        <th style="width: auto;" id="th-admin-username">
+                            <a href="#" onclick="changeAdminSort('username')">
+                                Tên đăng nhập
+                                <i id="admin-username-sort" class="fa-solid fa-sort"></i>
+                            </a>
+                        </th>
+
+                        <th style="width: 25%;" id="th-admin-first-name">
+                            <a href="#" onclick="changeAdminSort('firstName')">
+                                Họ đệm
+                                <i id="admin-first-name-sort" class="fa-solid fa-sort"></i>
+                            </a>
+                        </th>
+
+                        <th style="width: 20%;" id="th-admin-last-name">
+                            <a href="#" onclick="changeAdminSort('lastName')">
+                                Tên
+                                <i id="admin-last-name-sort" class="fa-solid fa-sort"></i>
+                            </a>
+                        </th>
+
+                        <th style="width: 15%;" id="th-admin-gender">
+                            <a href="#" onclick="changeAdminSort('gender')">
+                                Giới tính
+                                <i id="admin-gender-sort" class="fa-solid fa-sort"></i>
+                            </a>
+                            
+                        </th>
+
+                        <th style="width: 15%;" id="th-exp-year">
+                            <a href="#" onclick="changeAdminSort('namKN')">
+                                Số năm kinh nghiệm
+                                <i id="admin-exp-year-sort" class="fa-solid fa-sort"></i>
+                            </a>
+                        </th>
+
+                        <th style="width: 120px;">
+                            Actions
+                            </a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+
+            </table>
+            <div class="page-nav">
+                <nav aria-label="Page admins navigation example">
+                    <ul class="pagination">
+                      <!-- <li class="page-item" id="above-tuyen"><a class="page-link" href="#" onclick="prevTuyenPage()">Previous</a></li>
+                      <li class="page-item"><a class="page-link" href="#">1</a></li>
+                      <li class="page-item"><a class="page-link" href="#">2</a></li>
+                      <li class="page-item"><a class="page-link" href="#">3</a></li>
+                      <li class="page-item"><a class="page-link" href="#" onclick="nextTuyenPage()">Next</a></li> -->
+                    </ul>
+                  </nav>
+            </div>
+
+            <div class="page-nav">
+                <div class="page-info" id="admin-page-info">
+                    <!-- 10 records 1 of 10 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add and Update Admin modal HTML -->
+    <div class="modal fade" id="addAndUpdateAdminModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" id="addAndUpdateAdmin-modal-title" style="text-align: center; font-size: 25px;">
+                        Tạo mới quản trị viên
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="admin-id" name="id" value="">
+                    
+                    <!-- thêm option trong drop down list cho typePlane -->
+                     <div class="input-item">
+                        <label for="gender" id="gender-label"><b>Giới tính:</b></label>
+                        <select class="form-control" name="gender" id="modal-admin-gender-select">
+                            <option value="">- Lựa chọn giới tính -</option> <!-- Default value-->
+                            <option value="Male">Nam</option>
+                            <option value="Female">Nữ</option>
+                            <option value="Undefiend">Khác</option>
+                         </select>
+                        <div id="modal-input-errMess-admin-gender" class="input-errMess"></div>
+                    </div>
+
+                    <div class="input-item">
+                        <div id="admin-first-name-block">
+                            <label for="first-name" id="first-name-label"><b>Họ đệm</b></label>
+                            <input class="form-control" type="text" placeholder="Nhập họ tên đệm ..." name="first-name" id="modal-admin-first-name" value="">
+                            <div id="modal-input-errMess-admin-first-name" class="input-errMess"></div>
+                        </div>
+                        <div id="admin-last-name-block">
+                            <label for="last-name" id="last-name-label"><b>Tên</b></label>
+                            <input class="form-control" type="text" placeholder="Nhập tên gọi ..." name="last-name" id="modal-admin-last-name" value="">
+                            <div id="modal-input-errMess-admin-last-name" class="input-errMess"></div>
+                        </div>
+                    </div>
+
+                    <div class="input-item">
+                        <div id="admin-user-name-block">
+                            <label for="user-name" id="user-name-label"><b>Tên đăng nhập</b></label>
+                            <input class="form-control" type="text" placeholder="Nhập tên đăng nhập ..." name="user-name" id="modal-admin-user-name" value="">
+                            <div id="modal-input-errMess-admin-user-name" class="input-errMess"></div>
+                        </div>
+                        <div id="admin-pass-word-block">
+                            <label for="pass-word" id="pass-word-label"><b>Mật khẩu (default: 123@456)</b></label>
+                            <input class="form-control" type="password" placeholder="Nhập mật khẩu ..." name="pass-word" id="modal-admin-pass-word" value="123@456">
+                            <div id="modal-input-errMess-admin-pass-word" class="input-errMess"></div>
+                        </div>
+                    </div>
+
+                    <div class="input-item">
+                        <label for="exp-year"><b>Số năm kinh nghiệm:</b></label>
+                        <input class="form-control" type="text" placeholder="Số giờ bay ..." name="exp-year" id="modal-admin-exp-year">
+                        <div id="modal-input-errMess-exp-year" class="input-errMess"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default save-btn" onclick="saveAdmin()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Single Admin delete modal HTML -->
+    <div class="modal fade" id="deleteSingleAdminModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" style="text-align: center; font-size: 24px;">Delete Admin</i>
+                    </h4>
+                </div>
+                <input type="hidden" id="delete-single-admin-id" name="id" value="">
+                <div class="modal-body" id="delete-single-admin-confirm-mess">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="delete-single-admin-btn" type="button" class="btn btn-default delete-btn">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admins delete modal HTML -->
+    <div class="modal fade" id="deleteMultipleAdminsModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" style="text-align: center; font-size: 24px;">Delete Admin</i>
+                    </h4>
+                </div>
+                <div class="modal-body" id="delete-admins-confirm-mess">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="delete-multiple-admins-btn" type="button" class="btn btn-default delete-btn">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>

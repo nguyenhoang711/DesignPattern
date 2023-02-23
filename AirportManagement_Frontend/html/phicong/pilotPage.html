@@ -1,0 +1,273 @@
+<div class="alv-container">
+    <div class="alv-heading">
+        DANH SÁCH PHI CÔNG
+    </div>
+
+    <!-- Filter -->
+    <div class="filter-pilot-wrapper">
+        <div class="filter-pilot-item">
+            <select id="filter-min-fly-time-select" style="width:180px;" class="operator">
+                <option value=""></option> <!-- Default value-->
+                <option value="250">250</option>
+                <option value="550">550</option>
+                <option value="1050">1050</option>
+                <option value="1650">1650</option>
+                <option value="1900">1900</option>
+                <option value="2500">2500</option>
+                <option value="2850">2850</option>
+            </select>
+        </div>
+        <div class="filter-pilot-item">
+            <select id="filter-max-fly-time-select" style="width:180px;" class="operator">
+                <option value=""></option> <!-- Default value-->
+                <option value="600">600</option>
+                <option value="900">900</option>
+                <option value="1500">1500</option>
+                <option value="2000">2000</option>
+                <option value="3500">3500</option>
+                <option value="4600">4600</option>
+                <option value="5900">5900</option>
+                <option value="6500">6500</option>
+                <option value="7000">7000</option>
+                <option value="8500">8500</option>
+            </select>
+        </div>
+        <div class="filter-pilot-item">
+            <select id="filter-pilot-gender-select" style="width:180px;" class="operator">
+                <option value=""></option> <!-- Default value-->
+                <option value="All genders">Tất cả</option>
+                <option value="Male">Nam</option>
+                <option value="Female">Nữ</option>
+                <option value="Undefined">Khác</option>
+            </select>
+        </div>
+        <div class="filter-pilot-item">
+            <a href="#" data-toggle="tooltip" title="Filter" onclick="filterPilot()">
+                <i class="fa-solid fa-filter"></i>
+            </a>
+        </div>
+    </div>
+        
+
+    <div class="alv-table">
+        <div class="table-wrapper">
+            <div class="function-bar">
+
+                <!-- Search -->
+                <div class="search-bar">
+                    <i class="fas fa-search search-icon"></i>
+                    <input class="form-control" type="text" id="search-pilot-input" placeholder="Tìm kiếm theo tên cơ trưởng..." data-toggle="tooltip">
+                </div>
+
+                <div class="add-sync-del-btn">
+                    <a href="#" data-toggle="tooltip" title="Refresh" onclick="refreshPilotTable()">
+                        <i class="fas fa-sync"></i>
+                    </a>
+                    <a href="#" data-toggle="tooltip" title="Add" onclick="openAddPilotModal()">
+                        <i class="fa-solid fa-square-plus"></i>
+                    </a>
+                    <a href="#" data-toggle="tooltip" title="Delete" onclick="showDeleteMultiplePilotsModal()">
+                        <i class="fa-regular fa-trash-can"></i>
+                    </a>
+                </div>
+            </div>
+            <table class="table table-striped table-hover" id="pilot-table">
+                <thead>
+                    <tr>
+                        <th style="width: 45px;">
+                            <span class="pilot-checkbox">
+                                <input type="checkbox" id="checkbox-all" name="checkbox-all"
+                                    onclick="onChangePilotCheckboxAll()">
+                                <label></label>
+                            </span>
+                        </th>
+                        <th style="width: auto;" id="th-pilot-username">
+                            <a href="#" onclick="changePilotSort('username')">
+                                Tên đăng nhập
+                                <i id="pilot-username-sort" class="fa-solid fa-sort"></i>
+                            </a>
+                        </th>
+
+                        <th style="width: 25%;" id="th-pilot-first-name">
+                            <a href="#" onclick="changePilotSort('firstName')">
+                                Họ đệm
+                                <i id="pilot-first-name-sort" class="fa-solid fa-sort"></i>
+                            </a>
+                        </th>
+
+                        <th style="width: 15%;" id="th-pilot-last-name">
+                            <a href="#" onclick="changePilotSort('lastName')">
+                                Tên
+                                <i id="pilot-last-name-sort" class="fa-solid fa-sort"></i>
+                            </a>
+                        </th>
+
+                        <th style="width: 15%;" id="th-pilot-gender">
+                            <a href="#" onclick="changePilotSort('gender')">
+                                Gender
+                                <i id="pilot-gender-sort" class="fa-solid fa-sort"></i>
+                            </a>
+                            
+                        </th>
+
+                        <th style="width: 15%;" id="th-fliedTime">
+                            <a href="#" onclick="changePilotSort('fliedTime')">
+                                Số giờ bay
+                                <i id="pilot-fly-time-sort" class="fa-solid fa-sort"></i>
+                            </a>
+                        </th>
+
+                        <th style="width: 120px;">
+                            Actions
+                            </a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+
+            </table>
+            <div class="page-nav">
+                <nav aria-label="Page pilots navigation example">
+                    <ul class="pagination">
+                      <!-- <li class="page-item" id="above-tuyen"><a class="page-link" href="#" onclick="prevTuyenPage()">Previous</a></li>
+                      <li class="page-item"><a class="page-link" href="#">1</a></li>
+                      <li class="page-item"><a class="page-link" href="#">2</a></li>
+                      <li class="page-item"><a class="page-link" href="#">3</a></li>
+                      <li class="page-item"><a class="page-link" href="#" onclick="nextTuyenPage()">Next</a></li> -->
+                    </ul>
+                  </nav>
+            </div>
+
+            <div class="page-nav">
+                <div class="page-info" id="pilot-page-info">
+                    <!-- 10 records 1 of 10 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Add and Update Pilot modal HTML -->
+    <div class="modal fade" id="addAndUpdatePilotModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" id="addAndUpdatePilot-modal-title" style="text-align: center; font-size: 25px;">
+                        Tạo mới phi công
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="pilot-id" name="id" value="">
+                    
+                    <!-- thêm option trong drop down list cho typePlane -->
+                     <div class="input-item">
+                        <label for="gender" id="gender-label"><b>Giới tính:</b></label>
+                        <select class="form-control" name="gender" id="modal-pilot-gender-select">
+                            <option value="">- Lựa chọn giới tính -</option> <!-- Default value-->
+                            <option value="Male">Nam</option>
+                            <option value="Female">Nữ</option>
+                            <option value="Undefiend">Khác</option>
+                         </select>
+                        <div id="modal-input-errMess-gender" class="input-errMess"></div>
+                    </div>
+
+                    <div class="input-item">
+                        <div id="pilot-first-name-block">
+                            <label for="first-name" id="first-name-label"><b>Họ đệm</b></label>
+                            <input class="form-control" type="text" placeholder="Nhập họ tên đệm ..." name="first-name" id="modal-pilot-first-name" value="">
+                            <div id="modal-input-errMess-first-name" class="input-errMess"></div>
+                        </div>
+                        <div id="pilot-last-name-block">
+                            <label for="last-name" id="last-name-label"><b>Tên</b></label>
+                            <input class="form-control" type="text" placeholder="Nhập tên gọi ..." name="last-name" id="modal-pilot-last-name" value="">
+                            <div id="modal-input-errMess-last-name" class="input-errMess"></div>
+                        </div>
+                    </div>
+
+                    <div class="input-item">
+                        <div id="pilot-user-name-block">
+                            <label for="user-name" id="user-name-label"><b>Tên đăng nhập</b></label>
+                            <input class="form-control" type="text" placeholder="Nhập tên đăng nhập ..." name="user-name" id="modal-pilot-user-name" value="">
+                            <div id="modal-input-errMess-user-name" class="input-errMess"></div>
+                        </div>
+                        <div id="pilot-pass-word-block">
+                            <label for="pass-word" id="pass-word-label"><b>Mật khẩu (default: 123@456)</b></label>
+                            <input class="form-control" type="password" placeholder="Nhập mật khẩu ..." name="pass-word" id="modal-pilot-pass-word" value="123@456">
+                            <div id="modal-input-errMess-pass" class="input-errMess"></div>
+                        </div>
+                    </div>
+
+                    <div class="input-item">
+                        <label for="fly-time"><b>Số giờ bay:</b></label>
+                        <input class="form-control" type="text" placeholder="Số giờ bay ..." name="fly-time" id="modal-pilot-fly-time">
+                        <div id="modal-input-errMess-fly-time" class="input-errMess"></div>
+                    </div>
+
+                    <div class="input-item" hidden>
+                        <label for="role" style="margin-left: 4px;"><b>Chức vụ:</b></label>
+                        <select class="form-control" name="role" id="modal-pilot-role-select" disabled>
+                            <option value="">- Lựa chọn chức vụ -</option>
+                            <option value="ADMIN">Admin</option>
+                            <option value="PILOT" selected>Pilot</option>
+                        </select>
+                        <div id="modal-input-errMess-role" class="input-errMess"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default save-btn" onclick="savePilot()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Single Pilot delete modal HTML -->
+    <div class="modal fade" id="deleteSinglePilotModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" style="text-align: center; font-size: 24px;">Delete Pilot</i>
+                    </h4>
+                </div>
+                <input type="hidden" id="delete-single-pilot-id" name="id" value="">
+                <div class="modal-body" id="delete-single-pilot-confirm-mess">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="delete-single-pilot-btn" type="button" class="btn btn-default delete-btn">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pilots delete modal HTML -->
+    <div class="modal fade" id="deleteMultiplePilotsModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" style="text-align: center; font-size: 24px;">Delete Pilot</i>
+                    </h4>
+                </div>
+                <div class="modal-body" id="delete-pilots-confirm-mess">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="delete-multiple-pilots-btn" type="button" class="btn btn-default delete-btn">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,163 @@
+<div class="alv-container">
+    <div class="alv-heading">
+        STAFF LIST
+    </div>
+
+    <!-- Filter -->
+    <div class="filter-staff-wrapper">
+        <div class="filter-staff-item">
+            <select id="filter-staff-role-select" class="operator">
+                <option value=""></option> <!-- Default value-->
+                <option value="All Roles">All Roles</option>
+                <option value="ADMIN">Quản lý</option>
+                <option value="PILOT">Phi công</option>
+            </select>
+        </div>
+
+        <div class="filter-staff-item">
+            <select id="filter-staff-gender-select" class="operator">
+                <option value=""></option> <!-- Default value-->
+                <option value="All genders">Tất cả</option>
+                <option value="Male">Nam</option>
+                <option value="Female">Nữ</option>
+                <option value="Undefined">Khác</option>
+            </select>
+        </div>
+
+        <div class="filter-staff-item">
+            <a href="#" data-toggle="tooltip" title="Filter" onclick="filterStaff()">
+                <i class="fa-solid fa-filter"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="alv-table">
+        <div class="table-wrapper">
+            <div class="function-bar">
+
+                <!-- Search -->
+                <div class="search-bar">
+                    <i class="fas fa-search search-icon"></i>
+                    <input class="form-control" type="text" id="search-staff-input" placeholder="Search by name..." data-toggle="tooltip">
+                </div>
+
+                <div class="add-sync-del-btn">
+                    <a href="#" data-toggle="tooltip" title="Refresh" onclick="refreshStaffTable()">
+                        <i class="fas fa-sync"></i>
+                    </a>
+                    <a href="#" data-toggle="tooltip" title="Delete" onclick="showDeleteMultipleStaffsModal()">
+                        <i class="fa-regular fa-trash-can"></i>
+                    </a>
+                </div>
+            </div>
+            <table class="table table-striped table-hover" id="staff-table">
+                <thead>
+                    <tr>
+                        <th style="width: 45px;">
+                            <span class="staff-checkbox">
+                                <input type="checkbox" id="checkbox-all" name="checkbox-all"
+                                    onclick="onChangeStaffCheckboxAll()">
+                                <label></label>
+                            </span>
+                        </th>
+                        <th style="width: auto;" id="th-username">
+                            <a href="#" onclick="changeStaffSort('username')">
+                                Username
+                                <i id="username-sort" class="fa-solid fa-sort"></i>
+                            </a>
+                        </th>
+                        <th style="width: 25%;" id="th-full-name">
+                            <a href="#" onclick="changeStaffSort('fullName')">
+                                Full Name
+                                <i id="fullname-sort" class="fa-solid fa-sort"></i>
+                            </a>
+                        </th>
+
+                        <th style="width: 15%;" id="th-gender">
+                            <a href="#" onclick="changeStaffSort('gender')">
+                                Gender
+                                <i id="gender-sort" class="fa-solid fa-sort"></i>
+                            </a>
+                            
+                        </th>
+
+                        <th style="width: 15%;">
+                            <a href="#" onclick="changeStaffSort('role')">
+                                Role
+                                <i id="role-sort" class="fa-solid fa-sort"></i>
+                            </a>
+                        </th>
+                        <th style="width: 120px;">
+                            Actions
+                            </a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+
+            </table>
+            <div class="page-nav">
+                <nav aria-label="Staff pagination">
+                    <ul class="pagination">
+                        
+                    </ul>
+                </nav>
+            </div>
+
+            <div class="page-nav">
+                <div class="page-info" id="staff-page-info">
+                    <!-- 10 records 1 of 10 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Single Staff delete modal HTML -->
+    <div class="modal fade" id="deleteSingleStaffModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" style="text-align: center; font-size: 24px;">Delete Staff</i>
+                    </h4>
+                </div>
+                <input type="hidden" id="delete-single-staff-id" name="id" value="">
+                <div class="modal-body" id="delete-single-staff-confirm-mess">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="delete-single-staff-btn" type="button" class="btn btn-default delete-btn">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Staffs delete modal HTML -->
+    <div class="modal fade" id="deleteMultiplestaffsModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" style="text-align: center; font-size: 24px;">Delete Staff</i>
+                    </h4>
+                </div>
+                <div class="modal-body" id="delete-staffs-confirm-mess">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="delete-multiple-staffs-btn" type="button" class="btn btn-default delete-btn">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,202 @@
+<div class="alv-container">
+    <div class="alv-heading">
+        DANH SÁCH TUYẾN BAY
+    </div>
+
+    <!-- Filter -->
+    <div class="filter-tuyen-wrapper">
+        <div class="filter-tuyen-item">
+            <p class="filter-label">Mức giá thấp nhất:</p>
+            <select id="filter-min-price-select" style="width:220px;" class="operator">
+                <option value="">Tất cả</option> <!-- Default value-->
+                <option value="LOW">2500000</option>
+                <option value="MEDIUM">6500000</option>
+                <option value="HIGH">8000000</option>
+            </select>
+        </div>
+        <div class="filter-tuyen-item">
+            <p class="filter-label">Mức giá cao nhất:</p>
+            <select id="filter-max-price-select" style="width:220px;" class="operator">
+                <option value="">Tất cả</option>
+                <option value="LOW">4000000</option> 
+                <option value="MEDIUM">8000000</option>
+                <option value="HIGH">10000000</option>
+            </select>
+        </div>
+        <div class="filter-tuyen-item">
+            <a href="#" data-toggle="tooltip" title="Filter" onclick="filterTuyen()">
+                <i class="fa-solid fa-filter"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="alv-table">
+        <div class="table-wrapper">
+            <div class="function-bar">
+
+                <!-- Search -->
+                <div class="search-bar">
+                    <i class="fas fa-search search-icon"></i>
+                    <input class="form-control" type="text" id="search-tuyen-input" placeholder="Tìm theo tên thành phố..." data-toggle="tooltip">
+                </div>
+
+                <div class="add-sync-del-btn">
+                    <a href="#" data-toggle="tooltip" title="Refresh" onclick="refreshTuyenTable()">
+                        <i class="fas fa-sync"></i>
+                    </a>
+                    <a href="#" data-toggle="tooltip" title="Add" onclick="openAddTuyenModal()">
+                        <i class="fa-solid fa-square-plus"></i>
+                    </a>
+                    <a href="#" data-toggle="tooltip" title="Delete" onclick="showDeleteMultipleTuyensModal()">
+                        <i class="fa-regular fa-trash-can"></i>
+                    </a>
+                </div>
+            </div>
+            <table class="table table-striped table-hover" id="tuyen-table">
+                <thead>
+                    <tr>
+                        <th style="width: 45px;">
+                            <span class="tuyen-checkbox">
+                                <input type="checkbox" id="checkbox-all" name="checkbox-all"
+                                    onclick="onChangeTuyenCheckboxAll()">
+                                <label></label>
+                            </span>
+                        </th>
+                        <th style="width: auto;" id="th-fromCity">
+                            <a href="#" onclick="changeTuyenSort('fromCity')">
+                                Thành phố khởi hành
+                                <i id="fromCity-sort" class="fa-solid fa-sort"></i>
+                            </a>
+                        </th>
+                        <th style="width: 35%;" id="th-toCity">
+                            <a href="#" onclick="changeTuyenSort('toCity')">
+                                Thành phố đến
+                                <i id="toCity-sort" class="fa-solid fa-sort"></i>
+                            </a>
+                        </th>
+                        <th style="width: 20%;" id="th-price">
+                            <a href="#" onclick="changeTuyenSort('price')">
+                                Đơn giá vé
+                                <i id="price-sort" class="fa-solid fa-sort"></i>
+                            </a>
+                        </th>
+                        <th style="width: 120px;">
+                            Actions
+                            </a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+
+            </table>
+            <div class="page-nav">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                      <!-- <li class="page-item" id="above-tuyen"><a class="page-link" href="#" onclick="prevTuyenPage()">Previous</a></li>
+                      <li class="page-item"><a class="page-link" href="#">1</a></li>
+                      <li class="page-item"><a class="page-link" href="#">2</a></li>
+                      <li class="page-item"><a class="page-link" href="#">3</a></li>
+                      <li class="page-item"><a class="page-link" href="#" onclick="nextTuyenPage()">Next</a></li> -->
+                    </ul>
+                  </nav>
+            </div>
+
+            <div class="page-nav">
+                <!-- <input type="button" value="Previous" id="tuyen-previousPage-btn" onclick="prevTuyenPage()"> -->
+                <div class="page-info" id="tuyen-page-info">
+                    <!-- 10 records 1 of 10 -->
+                </div>
+                <!-- <input type="button" value="Next" id="tuyen-nextPage-btn" onclick="nextTuyenPage()"> -->
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Add and Update Tuyen modal HTML -->
+    <div class="modal fade" id="addAndUpdateTuyenModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" id="addAndUpdateTuyen-modal-title" style="text-align: center; font-size: 25px;">
+                        
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="tuyen-id" name="id" value="">
+
+                    <div class="input-item" id="from-city-block">
+                        <label for="fromCity" style="margin-left: 4px;"><b>Thành phố xuất phát:</b></label>
+                        <input class="form-control" type="text" placeholder="Xuất phát" name="fromCity" id="modal-fromCity">
+                        <div id="modal-input-errMess-from-city" class="input-errMess"></div>
+                    </div>
+
+                    <div class="input-item" id="to-city-block">
+                        <label for="toCity" style="margin-left: 4px;"><b>Thành phố tới:</b></label>
+                        <input class="form-control" type="text" placeholder="Hạ cánh" name="toCity" id="modal-toCity">
+                        <div id="modal-input-errMess-to-city" class="input-errMess"></div>
+                    </div>
+                    
+                    <div class="input-item">
+                        <label for="price"><b>Đơn giá vé:</b></label>
+                        <input class="form-control" type="text" placeholder="Đơn giá vé" name="price" id="modal-price">
+                        <div id="modal-input-errMess-price" class="input-errMess"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default save-btn" onclick="saveTuyen()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Single Tuyen delete modal HTML -->
+    <div class="modal fade" id="deleteSingleTuyenModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" style="text-align: center; font-size: 24px;">Xóa tuyến bay</i>
+                    </h4>
+                </div>
+                <input type="hidden" id="delete-single-tuyen-id" name="id" value="">
+                <div class="modal-body" id="delete-single-tuyen-confirm-mess">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="delete-single-tuyen-btn" type="button" class="btn btn-default delete-btn">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tuyens delete modal HTML -->
+    <div class="modal fade" id="deleteMultipleTuyensModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" style="text-align: center; font-size: 24px;">Xóa tuyến bay</i>
+                    </h4>
+                </div>
+                <div class="modal-body" id="delete-tuyens-confirm-mess">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="delete-multiple-tuyens-btn" type="button" class="btn btn-default delete-btn">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
